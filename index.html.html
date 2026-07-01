@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Référentiel consultantes — Bilan de compétences</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --nuit:#0E0E0C;
+    --charbon:#1A1A17;
+    --charbon2:#141412;
+    --vert:#3DCA7A;
+    --rose:#F24F8F;
+    --or:#C9A84C;
+    --ivoire:#F5F2EC;
+    --blanc:#FFFFFF;
+    --gris:#B8B4AB;
+    --bordure:#E0DDD6;
+    --corps:#444444;
+    --bordure-sombre:#2A2A26;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--nuit);
+    color:var(--ivoire);
+    font-family:'DM Sans',sans-serif;
+    font-weight:300;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    padding:64px 24px 40px;
+    max-width:920px;
+    margin:0 auto;
+    overflow:hidden;
+  }
+  .hero-mark{
+    position:absolute;
+    top:-40px;
+    right:-60px;
+    width:340px;
+    height:340px;
+    opacity:0.06;
+    pointer-events:none;
+    z-index:0;
+  }
+  .hero-inner{position:relative;z-index:1}
+  .eyebrow{
+    font-size:11px;
+    font-weight:500;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:var(--vert);
+    margin-bottom:18px;
+  }
+  .eyebrow .rose{color:var(--rose)}
+  h1{
+    font-family:'Playfair Display',serif;
+    font-weight:700;
+    font-size:clamp(32px,6vw,50px);
+    line-height:1.08;
+    color:var(--ivoire);
+    letter-spacing:-0.01em;
+  }
+  h1 em{font-style:italic;color:var(--vert);font-weight:400}
+  .hero p{
+    margin-top:20px;
+    color:var(--gris);
+    font-size:16px;
+    max-width:600px;
+  }
+  .hero-meta{
+    margin-top:22px;
+    font-size:12px;
+    letter-spacing:0.04em;
+    color:#6f6c65;
+  }
+  .hero-meta strong{color:var(--gris);font-weight:400}
+
+  /* ---------- SEARCH ---------- */
+  .search-wrap{
+    position:sticky;
+    top:0;
+    z-index:20;
+    background:linear-gradient(180deg,var(--nuit) 72%,rgba(14,14,12,0));
+    padding:18px 24px 24px;
+  }
+  .search-inner{max-width:920px;margin:0 auto}
+  .search-box{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:var(--charbon);
+    border:1px solid var(--bordure-sombre);
+    border-radius:6px;
+    padding:0 18px;
+    transition:border-color .2s ease;
+  }
+  .search-box:focus-within{border-color:var(--vert)}
+  .search-box svg{flex:none;width:18px;height:18px;stroke:var(--gris)}
+  #q{
+    flex:1;
+    background:transparent;
+    border:none;
+    outline:none;
+    color:var(--ivoire);
+    font-family:'DM Sans',sans-serif;
+    font-size:16px;
+    font-weight:300;
+    padding:15px 0;
+  }
+  #q::placeholder{color:#6f6c65}
+  #clear{
+    flex:none;
+    background:transparent;
+    border:none;
+    color:var(--gris);
+    font-size:20px;
+    cursor:pointer;
+    padding:4px 6px;
+    line-height:1;
+    display:none;
+  }
+  #clear:hover{color:var(--rose)}
+  .search-hint{
+    margin-top:10px;
+    font-size:12px;
+    color:#6f6c65;
+    letter-spacing:0.02em;
+    min-height:16px;
+  }
+  .search-hint b{color:var(--vert);font-weight:500}
+
+  /* ---------- CHIPS ---------- */
+  .chips{
+    max-width:920px;
+    margin:0 auto;
+    padding:0 24px 8px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .chip{
+    background:transparent;
+    border:0.5px solid var(--bordure-sombre);
+    color:var(--gris);
+    font-family:'DM Sans',sans-serif;
+    font-size:11px;
+    font-weight:500;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    padding:7px 14px;
+    border-radius:40px;
+    cursor:pointer;
+    transition:all .18s ease;
+  }
+  .chip:hover{border-color:var(--vert);color:var(--ivoire)}
+  .chip.active{background:var(--vert);color:var(--nuit);border-color:var(--vert)}
+
+  /* ---------- CONTENT ---------- */
+  main{max-width:920px;margin:0 auto;padding:20px 24px 80px}
+
+  .cat{margin-top:52px;scroll-margin-top:150px}
+  .cat-head{
+    display:flex;
+    align-items:baseline;
+    gap:16px;
+    padding-bottom:16px;
+    border-bottom:1px solid var(--bordure-sombre);
+    margin-bottom:8px;
+  }
+  .cat-num{
+    font-family:'DM Sans',sans-serif;
+    font-size:12px;
+    font-weight:500;
+    letter-spacing:0.15em;
+    color:var(--or);
+    flex:none;
+  }
+  .cat-title{
+    font-family:'Playfair Display',serif;
+    font-weight:700;
+    font-size:26px;
+    color:var(--ivoire);
+  }
+
+  .card{
+    border-left:3px solid var(--vert);
+    padding:20px 0 20px 22px;
+    margin-top:26px;
+  }
+  .card.warn{border-left-color:var(--rose)}
+  .card-q{
+    font-family:'DM Sans',sans-serif;
+    font-size:17px;
+    font-weight:500;
+    color:var(--ivoire);
+    margin-bottom:10px;
+    letter-spacing:0.005em;
+  }
+  .card-a{color:var(--gris);font-size:15px}
+  .card-a p+p{margin-top:10px}
+  .card-a strong{color:var(--ivoire);font-weight:500}
+  .card-a .green{color:var(--vert);font-weight:400}
+  .tag{
+    display:inline-block;
+    font-size:10px;
+    font-weight:500;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    color:var(--vert);
+    margin-bottom:12px;
+  }
+  .tag.rose{color:var(--rose)}
+
+  ul.clean{list-style:none;margin:10px 0 0}
+  ul.clean li{
+    position:relative;
+    padding-left:18px;
+    margin-top:7px;
+  }
+  ul.clean li::before{
+    content:'';
+    position:absolute;
+    left:0;top:11px;
+    width:5px;height:5px;
+    background:var(--vert);
+    border-radius:50%;
+  }
+  ul.clean li.rose-dot::before{background:var(--rose)}
+
+  /* pull-quote / geste éditorial */
+  .note{
+    background:var(--charbon2);
+    border-left:2px solid var(--rose);
+    padding:14px 20px;
+    margin-top:14px;
+    border-radius:0 4px 4px 0;
+  }
+  .note .lbl{
+    font-size:13px;
+    color:var(--rose);
+    font-family:'DM Sans',sans-serif;
+    font-weight:500;
+  }
+  .note p{color:var(--gris);font-size:14px;margin-top:4px}
+
+  mark{
+    background:rgba(61,202,122,0.28);
+    color:var(--ivoire);
+    border-radius:2px;
+    padding:0 1px;
+  }
+
+  .empty{
+    text-align:center;
+    padding:60px 20px;
+    color:var(--gris);
+    display:none;
+  }
+  .empty .big{
+    font-family:'Playfair Display',serif;
+    font-style:italic;
+    font-size:22px;
+    color:var(--ivoire);
+    margin-bottom:8px;
+  }
+
+  footer{
+    max-width:920px;
+    margin:0 auto;
+    padding:30px 24px 50px;
+    border-top:1px solid var(--bordure-sombre);
+    color:#6f6c65;
+    font-size:12px;
+    letter-spacing:0.03em;
+  }
+  footer .clover{color:var(--vert)}
+
+  .hidden{display:none !important}
+
+  @media(max-width:600px){
+    .hero{padding:44px 20px 28px}
+    .search-wrap{padding:14px 20px 20px}
+    .chips,main,footer{padding-left:20px;padding-right:20px}
+    .cat-title{font-size:22px}
+    .hero-mark{width:220px;height:220px;right:-40px}
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <svg class="hero-mark" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M38 38 C 30 20, 8 24, 12 40 C 15 51, 30 50, 38 42 C 26 50, 25 66, 38 66 C 48 66, 50 52, 42 44 C 50 52, 66 52, 66 40 C 66 30, 52 30, 44 38 C 52 30, 50 12, 38 16 C 30 19, 32 32, 38 38 Z" stroke="#3DCA7A" stroke-width="2.4" stroke-linejoin="round"/>
+    <path d="M46 44 L 82 44" stroke="#3DCA7A" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M82 44 q 8 0 8 6 q 0 5 -6 5 M84 51 l 0 6 M89 51 l 0 4" stroke="#3DCA7A" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+  </svg>
+  <div class="hero-inner">
+    <div class="eyebrow">Bilan de compétences <span class="rose">·</span> Référentiel consultantes</div>
+    <h1>Tout ce qu'il te faut,<br><em>au bon endroit.</em></h1>
+    <p>Le mode d'emploi de la formule hybride. Une question en pleine séance, un doute sur l'émargement, un TP à donner&nbsp;? Tape un mot-clé, la réponse s'affiche.</p>
+    <div class="hero-meta"><strong>Version du 1er juillet 2026</strong> · met à jour et remplace les échanges WhatsApp</div>
+  </div>
+</div>
+
+<div class="search-wrap">
+  <div class="search-inner">
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="q" type="text" placeholder="Cherche : émargement, TP, atelier, Wisely, vacances…" autocomplete="off">
+      <button id="clear" aria-label="Effacer">×</button>
+    </div>
+    <div class="search-hint" id="hint"></div>
+  </div>
+</div>
+
+<div class="chips" id="chips">
+  <button class="chip" data-cat="cat1">Déroulé</button>
+  <button class="chip" data-cat="cat2">Outils</button>
+  <button class="chip" data-cat="cat3">Émargement</button>
+  <button class="chip" data-cat="cat4">Documents</button>
+  <button class="chip" data-cat="cat5">Qui contacter</button>
+</div>
+
+<main id="content">
+
+  <!-- ============ CAT 1 ============ -->
+  <section class="cat" id="cat1">
+    <div class="cat-head"><span class="cat-num">01</span><h2 class="cat-title">Le déroulé du bilan</h2></div>
+
+    <div class="card">
+      <div class="card-q">De quoi se compose un bilan&nbsp;?</div>
+      <div class="card-a">
+        <p>Un bilan = <strong>13 heures</strong>, réparties en deux temps.</p>
+        <ul class="clean">
+          <li><strong>7h de travail individuel</strong>, menées par toi : 1 séance de 2h, 2 séances de 1h30, 2 séances de 1h.</li>
+          <li><strong>6h de travail collectif</strong>, animées par Mélanie : 3 ateliers de 2h.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-q">Qui fait quoi entre l'individuel et le collectif&nbsp;?</div>
+      <div class="card-a">
+        <p><strong>Toi</strong> : tu es responsable de toute la partie individuelle. Tu crées et gères tes rendez-vous selon tes disponibilités.</p>
+        <p><strong>Mélanie</strong> : elle anime les 3 ateliers collectifs. Elle te transmet les documents de préparation des ateliers, que tu donnes ensuite à tes bénéficiaires.</p>
+      </div>
+    </div>
+
+    <div class="card warn">
+      <span class="tag rose">La règle officielle</span>
+      <div class="card-q">Dans quel ordre s'enchaînent séances individuelles et ateliers&nbsp;?</div>
+      <div class="card-a">
+        <p>Les coordinateurs inscrivent tes bénéficiaires <strong>aux 3 ateliers collectifs</strong> (pour garder les mêmes personnes ensemble sur les 3, et remplir les groupes).</p>
+        <ul class="clean">
+          <li>Quand c'est possible, tu <span class="green">intercales tes séances individuelles entre les ateliers</span>.</li>
+          <li>Quand ce n'est pas possible (dispos qui ne collent pas), tu laisses les dates d'ateliers prévues et tu fais tes séances individuelles après.</li>
+        </ul>
+        <div class="note">
+          <span class="lbl">Le seul cas où tu changes une date d'atelier</span>
+          <p>C'est quand ton bénéficiaire a un empêchement. Sinon, on ne touche pas aux ateliers — on adapte l'individuel autour.</p>
+        </div>
+        <p>Les rendez-vous individuels doivent suivre la logique des ateliers : sans les infos de l'atelier, il te manque de la matière pour avancer. On teste ce fonctionnement et on ajuste si le terrain montre que ça coince.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-q">La première séance individuelle est plus courte que 2h. Je fais quoi&nbsp;?</div>
+      <div class="card-a">
+        <p>Ça arrive selon les dispos du bénéficiaire (certains ne sont jamais libres 2h d'affilée). Tu adaptes : tu fais l'essentiel maintenant, le reste à la séance suivante. Les 3 priorités de cette première séance :</p>
+        <ul class="clean">
+          <li>Poser le cadre.</li>
+          <li>Créer l'objectif co-construit.</li>
+          <li>Donner les TP.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-q">Combien de bénéficiaires vais-je suivre, et quand ça démarre&nbsp;?</div>
+      <div class="card-a">
+        <p>Ça dépend de la capacité que tu as annoncée et de tes disponibilités renseignées dans Wisely. Le démarrage se fait dès que tes documents administratifs sont reçus et tes dispos ouvertes.</p>
+        <p>Tu peux prendre temporairement plus de bénéficiaires si tu as des créneaux — préviens le coordinateur.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-q">Mélanie est en vacances : quel impact sur les ateliers&nbsp;?</div>
+      <div class="card-a">
+        <p>Pas d'atelier collectif <strong>du 24 juillet au 7 août</strong>. Organise tes séances individuelles en tenant compte de cette coupure.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CAT 2 ============ -->
+  <section class="cat" id="cat2">
+    <div class="cat-head"><span class="cat-num">02</span><h2 class="cat-title">Les outils</h2></div>
+
+    <div class="card">
+      <span class="tag">Outil principal</span>
+      <div class="card-q">C'est quoi Wisely, et à quoi ça sert&nbsp;?</div>
+      <div class="card-a">
+        <p>Wisely (parfois écrit «&nbsp;Wisley&nbsp;») centralise tout au même endroit : agenda, bénéficiaires, documents, mails, émargements. Il remplace Calendly, les sheets, le Drive, les mails et les outils de signature — <span class="green">plus besoin de captures d'écran pour prouver les échanges</span>.</p>
+        <p>On l'utilise sur ordinateur. Pour l'appli mobile ou toute question technique, écris à Yael.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-q">Comment je règle mes disponibilités&nbsp;?</div>
+      <div class="card-a">
+        <ul class="clean">
+          <li>Connecte ton Google Calendar pour que Wisely voie tes indisponibilités existantes.</li>
+          <li>Ouvre tes disponibilités générales pour tes créneaux réguliers hebdomadaires.</li>
+          <li>Ajoute des exceptions de date pour les créneaux ponctuels (une exception peut inverser ta règle générale sur une date précise).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card warn">
+      <div class="card-q">Mon agenda affiche des rendez-vous alors que je ne suis pas dispo&nbsp;!</div>
+      <div class="card-a">
+        <p>Il y a un <strong>délai de prise en compte</strong> des modifications dans le calendrier — une dispo mise à jour ne se répercute pas toujours immédiatement. Vérifie donc tes créneaux, et si un rendez-vous tombe sur une indisponibilité :</p>
+        <ul class="clean">
+          <li>Signale le bug directement sur la plateforme.</li>
+          <li>Écris à Yael.</li>
+          <li>Contacte le coordinateur concerné pour replanifier (nouveau mail, pas une réponse à un fil existant).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="tag">Ressources</span>
+      <div class="card-q">Où je trouve les exercices, TP et modèles&nbsp;?</div>
+      <div class="card-a">
+        <p>Deux endroits, avec le même contenu :</p>
+        <ul class="clean">
+          <li>Le <strong>Drive Ressources</strong> partagé.</li>
+          <li>Wisely, dans <strong>«&nbsp;modèles de dossier&nbsp;»</strong>.</li>
+        </ul>
+        <p>Prends le temps de parcourir ces dossiers avant de démarrer : la plupart des questions y trouvent leur réponse.</p>
+      </div>
+    </div>
+
+    <div class="card warn">
+      <div class="card-q">J'ai reçu des accès à la plateforme «&nbsp;Évolution&nbsp;». J'en fais quoi&nbsp;?</div>
+      <div class="card-a">
+        <p><strong>On ne l'utilise pas.</strong> Elle a été mise de côté à cause de dysfonctionnements qui généraient du stress. Si tu reçois des accès, ignore-les. Tu travailles avec tes propres outils + Wisely, c'est suffisant.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CAT 3 ============ -->
+  <section class="cat" id="cat3">
+    <div class="cat-head"><span class="cat-num">03</span><h2 class="cat-title">Émargement &amp; preuves</h2></div>
+
+    <div class="card warn">
+      <span class="tag rose">Non négociable</span>
+      <div class="card-q">Pourquoi l'émargement est vital&nbsp;?</div>
+      <div class="card-a">
+        <p>Crée un émargement <strong>pour chaque rendez-vous</strong>. Sans signature, on n'a aucune preuve que la séance a eu lieu — et le temps n'est pas déclarable. C'est la base de la conformité.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-q">Comment je crée un émargement&nbsp;?</div>
+      <div class="card-a">
+        <p>Via EduSign, avec nom, prénom et numéro de séance. Le format à respecter :</p>
+        <ul class="clean">
+          <li><strong>BDC1, BDC2, BDC3…</strong> suivi du nom de l'apprenant, pour identifier chaque séance.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-q">Quand envoyer la feuille à signer&nbsp;?</div>
+      <div class="card-a">
+        <p>Il y a un décalage entre le moment où tu envoies et celui où le bénéficiaire reçoit (parfois jusqu'à ~1h). Donc :</p>
+        <ul class="clean">
+          <li>Envoie tes signatures de la journée <span class="green">le matin</span>, même si l'entretien n'a pas encore eu lieu.</li>
+          <li>Dis au bénéficiaire de signer avant la séance — vous ne perdez pas de temps dessus une fois en rendez-vous.</li>
+        </ul>
+        <p>La signature met quelques minutes à se mettre à jour côté plateforme : ne reste pas à attendre devant l'écran.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-q">J'ai envoyé l'émargement mais la séance est reportée. C'est grave&nbsp;?</div>
+      <div class="card-a">
+        <p>Non. Regarde si tu peux supprimer l'état de présence ; sinon tant pis. <strong>Tant que la personne n'a pas signé, le temps n'est pas compté.</strong></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-q">Le recueil des besoins, c'est à moi de le faire signer&nbsp;?</div>
+      <div class="card-a">
+        <p>Non. <strong>Le recueil des attentes et des besoins, ce sont les coordinateurs qui le font et le font signer.</strong> Si tu parles d'un travail fait en séance, il n'y a rien à faire signer.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CAT 4 ============ -->
+  <section class="cat" id="cat4">
+    <div class="cat-head"><span class="cat-num">04</span><h2 class="cat-title">Les documents pédagogiques</h2></div>
+
+    <div class="card">
+      <div class="card-q">TP, carnet de bord, tableau de bord : c'est quoi la différence&nbsp;?</div>
+      <div class="card-a">
+        <ul class="clean">
+          <li><strong>TP (travail préparatoire)</strong> : les exercices que le bénéficiaire fait <span class="green">avant</span> un atelier. À remplir en amont.</li>
+          <li><strong>Carnet de bord</strong> : le travail qu'on fait <span class="green">pendant</span> l'atelier. Pas à remplir avant.</li>
+          <li><strong>Tableau de bord</strong> : un tableau Excel qui suit les étapes du bilan, avec les dates. À la fois un prévisionnel et un reflet de ce que tu fais en séance. Ce n'est <strong>pas</strong> un livret pédagogique.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-q">Qu'est-ce que je donne au bénéficiaire, et quand&nbsp;?</div>
+      <div class="card-a">
+        <p>Pour chaque atelier, tu donnes le <strong>TP</strong> correspondant + le <strong>carnet de bord</strong> correspondant. Tu les trouves dans le Drive ou dans Wisely («&nbsp;modèles de dossier&nbsp;»).</p>
+        <p>Le carnet de bord n'est pas à remplir avant l'atelier ; le TP, si.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-q">Je donne TP1 seul, ou TP1 + TP2 d'un coup&nbsp;?</div>
+      <div class="card-a">
+        <p>Pas de règle rigide : <strong>tu adaptes selon les dates des ateliers</strong>, ton propre travail personnel donné, et la capacité du bénéficiaire à avancer en autonomie. Ne surcharge pas.</p>
+        <p>Cas particulier : si deux ateliers sont très rapprochés (ex. vendredi puis lundi), tu peux envoyer TP1 <em>et</em> TP2 avec les deux carnets de bord en même temps, parce que le bénéficiaire n'aura pas le temps entre les deux.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-q">Comment je partage ces documents&nbsp;?</div>
+      <div class="card-a">
+        <p>Via Wisely : le bénéficiaire y a accès (section documents, qui fonctionne comme un drive partagé entre Mélanie, toi et lui). Si un apprenant n'arrive pas à se connecter à cause d'un bug, passe par le Drive en attendant.</p>
+        <p>Il est désormais possible de déposer des <strong>modèles de documents dans Wisely</strong>, accessibles à toi et au bénéficiaire — tout au même endroit.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-q">Les TP sont en PDF. Le bénéficiaire peut les remplir&nbsp;?</div>
+      <div class="card-a">
+        <p>Oui, ce sont des <strong>PDF modifiables</strong>. Ils sont dans les ressources et sur Wisely.</p>
+        <div class="note">
+          <span class="lbl">À dire à ton bénéficiaire</span>
+          <p>Le PDF doit être ouvert dans <strong>Chrome</strong> pour être vraiment modifiable et fonctionner correctement.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CAT 5 ============ -->
+  <section class="cat" id="cat5">
+    <div class="cat-head"><span class="cat-num">05</span><h2 class="cat-title">Qui fait quoi · qui contacter</h2></div>
+
+    <div class="card">
+      <div class="card-q">À qui je m'adresse selon mon problème&nbsp;?</div>
+      <div class="card-a">
+        <ul class="clean">
+          <li><strong>Mélanie</strong> — animation des ateliers collectifs, contenu pédagogique, paiements. C'est aussi elle qui co-crée le déroulé avec vous.</li>
+          <li><strong>Yael</strong> — tout l'administratif (contrats, RIB, documents) et <span class="green">toutes les questions techniques sur Wisely</span>. Ton premier réflexe quand la plateforme coince.</li>
+          <li><strong>Les coordinateurs</strong> — attribution des bénéficiaires, inscription aux ateliers, recueil des besoins, planning. À contacter par un nouveau mail (pas en répondant à un fil).</li>
+          <li><strong>Deborah</strong> — la partie pédagogique et le déroulé du contenu, en amont.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-q">Une question qui pourrait servir aux autres&nbsp;?</div>
+      <div class="card-a">
+        <p>Pose-la sur le <strong>groupe WhatsApp</strong> : ça mutualise les réponses et tout le monde apprend. Signale tes problèmes dès le début plutôt que d'attendre — la communication, c'est ce qui fait tourner la formule pendant cette phase de rodage.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-q">Je pars en congés / je suis indisponible une période. Je préviens qui&nbsp;?</div>
+      <div class="card-a">
+        <p>Préviens Yael ou ton coordinateur pour toute absence ou période d'indisponibilité, et pense à mettre tes disponibilités à jour dans Wisely.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-q">Adresse mail pour joindre Mélanie&nbsp;?</div>
+      <div class="card-a">
+        <p>Pour séparer le pro du perso, écris-lui dorénavant à <strong>melanie@melanietalhouarn.fr</strong> (plus par un autre canal).</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="empty" id="empty">
+    <div class="big">Rien ne correspond à «&nbsp;<span id="empty-term"></span>&nbsp;»</div>
+    <p>Essaie un autre mot, ou pose la question sur le groupe WhatsApp.</p>
+  </div>
+
+</main>
+
+<footer>
+  <span class="clover">✦</span> Référentiel consultantes — Bilan de compétences · Mélanie Talhouarn · Leadership Intérieur™<br>
+  Document de travail interne, version du 1er juillet 2026. En cas de doute non couvert ici, écris à Yael (technique) ou pose la question sur le groupe.
+</footer>
+
+<script>
+(function(){
+  const q = document.getElementById('q');
+  const clearBtn = document.getElementById('clear');
+  const hint = document.getElementById('hint');
+  const empty = document.getElementById('empty');
+  const emptyTerm = document.getElementById('empty-term');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  const cats = Array.from(document.querySelectorAll('.cat'));
+  const chips = Array.from(document.querySelectorAll('.chip'));
+
+  // store original HTML to restore after highlight
+  cards.forEach(c=>{ c.dataset.html = c.innerHTML; c.dataset.text = c.textContent.toLowerCase(); });
+
+  function stripMarks(){
+    cards.forEach(c=>{ c.innerHTML = c.dataset.html; });
+  }
+
+  function escapeReg(s){ return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+
+  // highlight term inside text nodes only
+  function highlight(term){
+    const re = new RegExp('('+escapeReg(term)+')','gi');
+    cards.forEach(c=>{
+      if(c.classList.contains('hidden')) return;
+      walk(c, re);
+    });
+  }
+  function walk(node, re){
+    for(let i=node.childNodes.length-1;i>=0;i--){
+      const child = node.childNodes[i];
+      if(child.nodeType===3){
+        const txt = child.nodeValue;
+        if(re.test(txt)){
+          const span = document.createElement('span');
+          span.innerHTML = txt.replace(re,'<mark>$1</mark>');
+          child.replaceWith(span);
+        }
+      } else if(child.nodeType===1 && child.tagName!=='MARK'){
+        walk(child, re);
+      }
+    }
+  }
+
+  // accent-insensitive
+  function norm(s){ return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase(); }
+
+  let activeChip = null;
+
+  function apply(){
+    const raw = q.value.trim();
+    const term = norm(raw);
+    clearBtn.style.display = raw ? 'block' : 'none';
+    stripMarks();
+
+    let visibleCount = 0;
+
+    cards.forEach(c=>{
+      const inCat = activeChip ? c.closest('.cat').id===activeChip : true;
+      const match = term ? norm(c.dataset.text).includes(term) : true;
+      const show = inCat && match;
+      c.classList.toggle('hidden', !show);
+      if(show) visibleCount++;
+    });
+
+    // hide category blocks with no visible card
+    cats.forEach(cat=>{
+      const anyVisible = cat.querySelectorAll('.card:not(.hidden)').length>0;
+      cat.classList.toggle('hidden', !anyVisible);
+    });
+
+    if(raw) highlight(raw);
+
+    // hint + empty state
+    if(term && visibleCount===0){
+      empty.style.display='block';
+      emptyTerm.textContent = raw;
+      hint.innerHTML='';
+    } else {
+      empty.style.display='none';
+      if(term){
+        hint.innerHTML = '<b>'+visibleCount+'</b> résultat'+(visibleCount>1?'s':'');
+      } else if(activeChip){
+        const name = chips.find(ch=>ch.dataset.cat===activeChip).textContent;
+        hint.innerHTML = 'Filtré sur <b>'+name+'</b>';
+      } else {
+        hint.innerHTML='';
+      }
+    }
+  }
+
+  q.addEventListener('input', apply);
+  clearBtn.addEventListener('click', ()=>{ q.value=''; q.focus(); apply(); });
+
+  chips.forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      if(activeChip===chip.dataset.cat){
+        activeChip=null; chip.classList.remove('active');
+      } else {
+        chips.forEach(c=>c.classList.remove('active'));
+        chip.classList.add('active');
+        activeChip=chip.dataset.cat;
+      }
+      apply();
+      const target=document.getElementById(activeChip);
+      if(target && !q.value) target.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+
+  // keyboard: "/" focuses search
+  document.addEventListener('keydown',e=>{
+    if(e.key==='/' && document.activeElement!==q){ e.preventDefault(); q.focus(); }
+    if(e.key==='Escape'){ q.value=''; apply(); q.blur(); }
+  });
+})();
+</script>
+
+</body>
+</html>
