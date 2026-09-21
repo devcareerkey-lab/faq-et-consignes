@@ -65,6 +65,11 @@ nav .nav-vider:hover{border-color:var(--vert);color:var(--ivoire)}
 .panneau .tete .badge{font-size:11px;font-weight:500;letter-spacing:.08em;color:var(--nuit);background:var(--c);padding:6px 12px;border-radius:3px;white-space:nowrap;margin-top:6px}
 .panneau .tete h2{font-size:28px}
 .panneau .tete p{font-size:14px;margin:6px 0 0;max-width:640px}
+.panneau .tete .objectif{margin-top:10px;font-size:14.5px;color:var(--nuit)}
+.panneau .tete .objectif span{display:inline-block;font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--vert);margin-right:10px}
+.panneau .tete .objectif em{font-style:normal;font-weight:400}
+.panneau .tete p#p-sous{color:#888;font-size:13.5px}
+.fenetre .cadre{font-size:13.5px;color:var(--gris);border-left:2px solid var(--or);padding-left:14px;margin:0 0 22px;max-width:760px}
 .onglets{display:flex;border-bottom:.5px solid var(--bordure);padding:0 32px}
 .onglet{background:none;border:0;padding:14px 4px;margin-right:28px;font-size:13px;font-weight:500;color:#999;border-bottom:2px solid transparent;text-transform:none}
 .onglet.active{color:var(--nuit);border-color:var(--vert)}
@@ -199,7 +204,7 @@ footer a{color:var(--gris)}
 
 <div class="wrap">
   <div class="panneau" id="panneau" style="--c:var(--or)">
-    <div class="tete"><span class="badge" id="p-badge"></span><div><h2 id="p-titre"></h2><p id="p-sous"></p></div></div>
+    <div class="tete"><span class="badge" id="p-badge"></span><div><h2 id="p-titre"></h2><p class="objectif"><span>Objectif</span><em id="p-obj"></em></p><p id="p-sous"></p></div></div>
     <div class="onglets" role="tablist">
       <button class="onglet active" data-t="avant">Avant <span class="n" id="n-avant"></span></button>
       <button class="onglet" data-t="pendant">Pendant <span class="n" id="n-pendant"></span></button>
@@ -217,6 +222,7 @@ footer a{color:var(--gris)}
     <div class="regles">
       <div><b>Pas de candidature en bilan CPF.</b> Ni CV, ni lettre, ni entretien, ni LinkedIn, ni réponse à des offres. Vigilance aussi dans tes mails et ta synthèse.</div>
       <div><b>Aucune séance sans émargement.</b> Aucune heure non émargée n'est réglée.</div>
+      <div><b>Confidentialité, y compris en groupe.</b> Ce qui se dit en atelier reste dans le groupe. Aucun résultat de test ni élément intime n'est restitué en collectif.</div>
             <div><b>Le dossier se remplit après chaque séance.</b> Un auditeur peut ouvrir un dossier en cours.</div>
     </div>
   </div>
@@ -253,10 +259,11 @@ footer a{color:var(--gris)}
     <button class="fermer" id="fermer-semaine" aria-label="Fermer">×</button>
     <h2 id="titre-semaine">Ta première semaine</h2>
     <p class="intro">Avant ton premier bénéficiaire, dans cet ordre.</p>
+    <p class="cadre">Le bilan de compétences est régi par le Code du travail (articles L6313-4 et R6313-4 et suivants). Son objectif : analyser les compétences, aptitudes et motivations du bénéficiaire pour définir un projet professionnel et, le cas échéant, un projet de formation. Trois phases légales : préliminaire (la séance préliminaire), investigation (les ateliers et les points individuels 1 et 2), conclusion (le point individuel 3 et le rendez-vous final). Le suivi à 6 mois est obligatoire au titre du même article.</p>
     <div class="semaine">
       <div class="jour"><b>Wisely</b>Tu as reçu tes accès. Regarde la vidéo « Utilisation Wisely » dans Ressources > Formation interne.</div>
       <div class="jour"><b>Agenda</b>Connecte ton Google Calendar à Wisely, ouvre tes disponibilités. Tes absences en « Occupé », sinon un rendez-vous peut se caler dessus.</div>
-      <div class="jour"><b>Ressources</b>Parcours tout le dossier : référence, tableau de bord, TP et carnets, exercices, modèle de synthèse.</div>
+      <div class="jour"><b>Ressources</b>Parcours tout le dossier : tableau de bord, TP et carnets, exercices, modèle de synthèse.</div>
       <div class="jour"><b>Clôture</b>Lis la clôture en premier : elle dit ce que le dossier contient à la fin, donc ce que tu construis dès le début.</div>
       <div class="jour"><b>Équipe</b>Rejoins le groupe WhatsApp « Bilans de compétences avec Mélanie ». Visio d'équipe le dernier lundi du mois à 12h, 1h30.</div>
     </div>
@@ -275,45 +282,45 @@ const ICO={ind:'<svg viewBox="0 0 24 24" fill="none"><path d="M12 12a4 4 0 1 0 0
  tel:'<svg viewBox="0 0 24 24" fill="none"><path d="M6 3h4l2 5-2.5 1.5a11 11 0 0 0 5 5L16 12l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 4 5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>'};
 
 const S=[
-{id:'prelim',nom:'Séance préliminaire',duree:'2 h',type:'ind',c:'var(--or)',badge:'Individuel · 2 h',sous:'Elle conditionne tout le reste : le cadre, l\'objectif, le calendrier complet. Si le bénéficiaire n\'a pas deux heures, tu traites l\'essentiel dans l\'ordre et tu reportes le reste.',
- avant:['Lire le recueil des besoins reçu avec la convocation : situation, attentes, éventuelle situation de handicap et adaptations à prévoir.','Consulter dans Wisely les dates des trois ateliers auxquels le bénéficiaire est inscrit.','Le matin : envoyer l\'émargement « BDC1 + nom » (format pré-rempli) et la convocation du jour.'],
+{id:'prelim',nom:'Séance préliminaire',duree:'2 h',type:'ind',c:'var(--or)',badge:'Individuel · 2 h',sous:'Si le bénéficiaire n\'a pas deux heures, tu traites l\'essentiel dans l\'ordre et tu reportes le reste.',obj:'Un objectif de bilan co-construit et vérifié (clair, utile, réaliste), le calendrier complet posé dans Wisely, le travail préparatoire lancé.',
+ avant:['Lire le recueil des besoins reçu avec la convocation : situation, attentes, et les adaptations éventuellement prévues en cas de situation de handicap (définies en amont par Mélanie avec le coordinateur : tu les appliques, tu n\'as pas à les organiser).','Consulter dans Wisely les dates des trois ateliers auxquels le bénéficiaire est inscrit.','Le matin : envoyer l\'émargement « BDC1 + nom » (format pré-rempli) et la convocation du jour.'],
  pendant:['Poser le cadre : ce qu\'est un bilan, ce qu\'il n\'est pas (aucun travail sur la candidature en CPF), le travail personnel attendu.','Co-construire l\'objectif avec « Vos raisons d\'entreprendre un bilan ».','Poser tout le calendrier dans Wisely : les 4 rendez-vous individuels restants, en alternance avec les 3 ateliers. Une date d\'atelier ne convient pas : tu la déplaces.','Envoyer le mail type « Travail préparatoire aux ateliers » (messagerie Wisely) et parcourir ensemble TP1 et TP2 : le pourquoi, un exemple, le niveau attendu. TP1 pour l\'atelier 1, TP2 pour l\'atelier 2.','Test psychométrique : choisir le test (CareerKey recommandé, 5 tests offerts par mois) et donner la consigne, ici ou au point individuel 1.'],
  apres:['Déposer dans le suivi pédagogique l\'objectif co-construit et l\'exercice de la séance s\'il y en a eu un.','Créer ta copie du tableau de bord depuis le Drive : date, objectif, contenu, exercice, résultat, dates prévisionnelles de toutes les séances. La partager avec le bénéficiaire.','Vérifier que l\'émargement BDC1 est signé.'],
  note:'<b>Calendrier complet dès cette séance</b> : exigence réglementaire, c\'est ce qui prévient les abandons. Des imprévus déplaceront parfois une séance ; ce qui ne varie pas, c\'est que tout soit posé aujourd\'hui.'},
-{id:'a1',nom:'Atelier 1',duree:'2 h',type:'col',c:'var(--vert)',badge:'Collectif · 2 h',sous:'La valeur professionnelle et les compétences. Animé par Mélanie ou une animatrice de l\'équipe. Le contenu est dans le carnet de bord 1, dans Ressources.',
+{id:'a1',nom:'Atelier 1',duree:'2 h',type:'col',c:'var(--vert)',badge:'Collectif · 2 h',sous:'Animé par Mélanie ou une animatrice de l\'équipe. Contenu dans le carnet de bord 1.',obj:'Le bénéficiaire nomme ses premières compétences dans les quatre dimensions (savoir, savoir-faire, savoir-être, transférable) et démarre sa cartographie.',
  avant:['Vérifier que le bénéficiaire a réalisé TP1. Le relancer si besoin.'],
  pendant:[],
  apres:['Les absents sont signalés sur le groupe WhatsApp par l\'animatrice : si ton bénéficiaire y figure, tu le réinscris au prochain atelier 1.','Le bénéficiaire te renvoie TP1 et le carnet de bord 1 : tu les déposes dans Wisely dès réception (ou il les dépose lui-même s\'il est à l\'aise avec la plateforme).'],
  rien:'Tu n\'y assistes pas. Si tu animes cet atelier : présence, émargement, absents retirés ou marqués, feuille verrouillée.'},
-{id:'p1',nom:'Point individuel 1',duree:'1 h',type:'ind',c:'var(--or)',badge:'Individuel · 1 h',sous:'Retour sur l\'atelier 1 et construction du portefeuille de compétences.',
+{id:'p1',nom:'Point individuel 1',duree:'1 h',type:'ind',c:'var(--or)',badge:'Individuel · 1 h',sous:'Le premier temps individuel après un atelier : ce qui n\'a pas pu se dire en groupe se dit ici.',obj:'Un portefeuille de compétences formalisé, les compétences transférables identifiées, le test psychométrique programmé.',
  avant:['Le matin : émargement « BDC2 + nom » et convocation du jour.','Vérifier que TP1 et le carnet 1 sont déposés dans Wisely. Sinon, les demander avant la séance.','Relire la ligne du jour dans ton tableau de bord.'],
- pendant:['Retour sur l\'atelier 1 : ce que le groupe a renvoyé, ce qui n\'a pas pu se dire.','Construire le portefeuille de compétences avec l\'outil de ton choix (mescompetences.info ou autre).','Donner la consigne du test psychométrique si ce n\'est pas déjà fait.'],
+ pendant:['Retour sur l\'atelier 1 : ce que le groupe a renvoyé, ce qui n\'a pas pu se dire.','Construire le portefeuille de compétences avec l\'outil de ton choix (mescompetences.info ou autre), en distinguant les compétences transférables.','Donner la consigne du test psychométrique si ce n\'est pas déjà fait, en précisant qu\'il n\'y a pas de bonne réponse : le test éclaire des intérêts, il n\'évalue pas un niveau.','Un bénéficiaire qui a pris toute la place en atelier, ou qui s\'est effacé : tu le reprends ici.'],
  apres:['Déposer la trace de la séance (portefeuille de compétences ou exercice) dans le suivi pédagogique.','Mettre à jour le tableau de bord : date réelle, contenu, exercice, résultats, incidents.','Vérifier que l\'émargement est signé.']},
-{id:'a2',nom:'Atelier 2',duree:'2 h',type:'col',c:'var(--vert)',badge:'Collectif · 2 h',sous:'Les moteurs professionnels : valeurs, priorités, phrase boussole. Contenu dans le carnet de bord 2.',
+{id:'a2',nom:'Atelier 2',duree:'2 h',type:'col',c:'var(--vert)',badge:'Collectif · 2 h',sous:'Contenu dans le carnet de bord 2.',obj:'Valeurs et priorités hiérarchisées, situations de flow et de drain repérées, phrase boussole formulée.',
  avant:['Vérifier que le bénéficiaire a réalisé TP2 et passé le test psychométrique. Le relancer si besoin.'],
  pendant:[],
  apres:['Absents signalés sur WhatsApp : réinscrire au prochain atelier 2 si besoin.','TP2 et carnet 2 renvoyés par le bénéficiaire : déposés dans Wisely dès réception.'],
  rien:'Tu n\'y assistes pas. Si tu animes : présence, émargement, absents traités, feuille verrouillée.'},
-{id:'a3',nom:'Atelier 3',duree:'2 h',type:'col',c:'var(--vert)',badge:'Collectif · 2 h',sous:'La méthode de l\'enquête métier. Contenu dans le carnet de bord 3.',
+{id:'a3',nom:'Atelier 3',duree:'2 h',type:'col',c:'var(--vert)',badge:'Collectif · 2 h',sous:'Contenu dans le carnet de bord 3.',obj:'La méthode d\'enquête métier maîtrisée, les ressources identifiées, de premiers contacts repérés.',
  avant:['Rien de particulier : pas de TP3.'],
  pendant:[],
  apres:['Absents signalés sur WhatsApp : réinscrire au prochain atelier 3 si besoin.','Carnet 3 renvoyé : déposé dans Wisely.','Transmettre les supports d\'enquête : Carnet d\'exploration métier, Enquête métier : aller voir le terrain, Débouchés et marché de l\'emploi, Formations et écoles.','Rappeler au bénéficiaire que sans enquête, le projet reste une hypothèse. Lui laisser le temps de contacter des professionnels avant le point 3.'],
  rien:'Tu n\'y assistes pas. Si tu animes : présence, émargement, absents traités, feuille verrouillée.'},
-{id:'p2',nom:'Point individuel 2',duree:'1 h 30',type:'ind',c:'var(--or)',badge:'Individuel · 1 h 30',sous:'Restitution du test, bilan de mi-parcours, pistes à vérifier sur le terrain.',
+{id:'p2',nom:'Point individuel 2',duree:'1 h 30',type:'ind',c:'var(--or)',badge:'Individuel · 1 h 30',sous:'Fin de la phase d\'investigation.',obj:'Profil d\'intérêts restitué, bilan de mi-parcours formalisé, 2 à 3 pistes posées et appropriées par le bénéficiaire.',
  avant:['Le matin : émargement « BDC3 + nom » et convocation.','Vérifier que carnets 2 et 3, TP2 et les résultats du test sont déposés. Sinon, les demander.','Relire le tableau de bord.'],
- pendant:['Retour sur les ateliers 2 et 3 : phrase boussole, priorités, décalages.','Restituer le test : ce qui résonne, ce qui surprend, ce qui se conteste.','Croiser compétences, moteurs et profil.','Bilan de mi-parcours (document dans Ressources) : où en est le bénéficiaire par rapport à l\'objectif initial.','Arrêter 2 à 3 pistes à vérifier sur le terrain, premiers contacts identifiés.'],
+ pendant:['Retour sur les ateliers 2 et 3 : phrase boussole, priorités, décalages.','Restituer le test, en individuel uniquement : ce qui résonne, ce qui surprend, ce qui se conteste. Le profil ouvre des pistes, il ne désigne pas un métier.','Croiser compétences, moteurs et profil. Point d\'attention : une valeur reste stable, c\'est souvent le cadre qui a cessé de la nourrir ; ce conflit de valeurs est fréquemment le vrai sujet du bilan.','Bilan de mi-parcours (document dans Ressources) : où en est le bénéficiaire par rapport à l\'objectif initial.','Arrêter 2 à 3 pistes à vérifier sur le terrain, premiers contacts identifiés.'],
  apres:['Déposer le bilan de mi-parcours et les traces de la séance dans le suivi pédagogique.','Mettre à jour le tableau de bord.','Vérifier l\'émargement.']},
-{id:'p3',nom:'Point individuel 3',duree:'1 h 30',type:'ind',c:'var(--or)',badge:'Individuel · 1 h 30',sous:'Les enquêtes métier deviennent un projet argumenté.',
+{id:'p3',nom:'Point individuel 3',duree:'1 h 30',type:'ind',c:'var(--or)',badge:'Individuel · 1 h 30',sous:'Début de la phase de conclusion.',obj:'Un projet principal défini et une alternative, la cohérence avec le profil validée, les conditions de mise en œuvre identifiées.',
  avant:['Le matin : émargement « BDC4 + nom » et convocation.','Vérifier que des traces de recherche sur les métiers sont déposées (quel que soit le support). Sinon, relancer avant la séance.','Relire le tableau de bord.'],
- pendant:['Exploiter les enquêtes métier : ce qui confirme, ce qui refroidit.','Confronter chaque piste au profil et à la réalité du terrain (matrice de décision ou autre outil).','Arrêter un projet principal et une alternative.','Cadrer le document de synthèse avec le bénéficiaire.'],
+ pendant:['Exploiter les enquêtes métier : ce qui confirme, ce qui refroidit. Aucune piste ne se valide sur un ressenti ou une fiche métier.','Confronter chaque piste au profil et à la réalité du terrain (matrice de décision ou autre outil).','Arrêter un projet principal et une alternative.','Cadrer le document de synthèse avec le bénéficiaire.'],
  apres:['Déposer la trace de la séance (matrice ou autre) dans le suivi pédagogique.','Mettre à jour le tableau de bord.','Pré-remplir la synthèse sur le modèle Ressources, aux couleurs de Mélanie Talhouarn, NDA 52441008944 visible. Rédiger le plan d\'action, dans la synthèse et en document distinct.'],
  note:'<b>Enquêtes non réalisées ?</b> Le bilan ne se prolonge pas indéfiniment. Elles passent dans le plan d\'action, avec leur importance clairement posée pour valider le projet. Exception : le bénéficiaire choisit de rester dans son métier.'},
-{id:'final',nom:'Rendez-vous final',duree:'1 h',type:'fin',c:'var(--rose)',badge:'Conclusion · 1 h',sous:'Co-validation de la synthèse, plan d\'action, suivi à 6 mois. Une heure ne permet pas de rédiger : tout est pré-rempli.',
+{id:'final',nom:'Rendez-vous final',duree:'1 h',type:'fin',c:'var(--rose)',badge:'Conclusion · 1 h',sous:'Une heure ne permet pas de rédiger : tout est pré-rempli avant.',obj:'Projet validé, synthèse remise, plan d\'action opérationnel, suivi à 6 mois planifié.',
  avant:['Synthèse pré-remplie, dates de réalisation du premier au dernier rendez-vous, NDA et nom de l\'organisme visibles.','Plan d\'action rédigé : dans la synthèse et en document distinct pour le suivi pédagogique.','Le matin : émargement « BDC5 + nom » avec, dans la description, la mention « J\'atteste avoir reçu la synthèse et avoir réalisé 13 h d\'accompagnement en visioconférence. »'],
- pendant:['Co-valider la synthèse avec le bénéficiaire et la lui remettre. Elle est confidentielle : il en est le seul destinataire.','Créer le rendez-vous de suivi à 6 mois dans Wisely (30 min ; forcer l\'alerte « hors période »).','Envoyer le questionnaire de satisfaction à chaud : Questionnaires → satisfaction apprenant → Ajouter participants → Envoyer.'],
+ pendant:['Co-valider la synthèse avec le bénéficiaire et la lui remettre. Elle est confidentielle : il en est le seul destinataire.','Vérifier le plan d\'action : des actions datées, pas une liste de vœux, et les freins anticipés (financement, calendrier, auto-sabotage).','Créer le rendez-vous de suivi à 6 mois dans Wisely (30 min ; forcer l\'alerte « hors période »).','Envoyer le questionnaire de satisfaction à chaud : Questionnaires → satisfaction apprenant → Ajouter participants → Envoyer.'],
  apres:['Dérouler la check-list de clôture ci-dessous, pièce par pièce.','Prévenir Aurélia et envoyer la facture.'],
  note:'<b>La check-list de clôture</b> est plus bas sur cette page.'},
-{id:'suivi',nom:'Suivi à 6 mois',duree:'30 min',type:'tel',c:'#888',badge:'Hors 13 h · 30 min',sous:'Obligatoire, non rémunéré, créé et émargé dans Wisely comme tout autre rendez-vous.',
+{id:'suivi',nom:'Suivi à 6 mois',duree:'30 min',type:'tel',c:'#888',badge:'Hors 13 h · 30 min',sous:'Obligatoire, non rémunéré, créé et émargé dans Wisely comme tout autre rendez-vous.',obj:'Mesurer la mise en œuvre du plan d\'action et l\'ajuster si besoin.',
  avant:['Le rendez-vous a été créé lors du rendez-vous final. Envoyer l\'émargement le matin.'],
  pendant:['Faire le point sur la mise en œuvre du plan d\'action : avancées, difficultés, ajustements.','Téléphone ou visio, au choix.'],
  apres:['Vérifier l\'émargement. Le questionnaire de satisfaction à froid part automatiquement.']}
@@ -323,6 +330,8 @@ const REFLEXES=[
 {q:'Absence à un atelier',k:'Atelier',r:'L\'animatrice signale les absents sur le groupe WhatsApp après l\'atelier. <b>Tu réinscris ton bénéficiaire au prochain atelier du même numéro.</b> Si tu animes : absents retirés ou marqués, feuille verrouillée, sinon le PDF ne se génère pas pour les présents.'},
 {q:'Rendez-vous individuel reporté',k:'Agenda',r:'Tu le déplaces dans Wisely et tu notes le report dans ton tableau de bord. <b>Une séance qui n\'a pas eu lieu ne se fait pas signer et n\'est pas rémunérée.</b> Le bénéficiaire le sait depuis la séance préliminaire.'},
 {q:'Deux reports de suite, ou sept jours sans réponse',k:'Coordinateur',r:'<b>Tu préviens le coordinateur par un nouveau mail</b> (pas en réponse à un fil). Il a la relation de confiance avec le bénéficiaire et sait le remobiliser. Préviens tôt. Un no-show sans réponse au message ni à l\'appel : coordinateur dès le lendemain.'},
+{q:'Il est mécontent, il se plaint',k:'Réclamation',r:'Insatisfaction exprimée, blocage, incompréhension, difficulté organisationnelle : <b>tu préviens le coordinateur en charge et Mélanie immédiatement</b>, au plus tard dans la journée, avec une description factuelle et le contexte. Tu ne gères pas la réclamation seule. La suite (analyse, action, ajustement) est décrite dans la « Procédure de gestion des incidents et abandons », dans Ressources.'},
+{q:'Un besoin d\'adaptation apparaît en cours de bilan',k:'Handicap',r:'Les situations de handicap sont identifiées par les coordinateurs au recueil des besoins et <b>prises en charge par Mélanie</b>, qui définit les adaptations. Si un besoin apparaît ou se révèle en cours de bilan, tu le signales à Mélanie ; tu n\'organises pas l\'adaptation toi-même.'},
 {q:'Il veut arrêter son bilan',k:'Abandon',r:'Tu l\'informes : <b>le CPF n\'est pas recrédité</b>, même au prorata, et un abandon sans motif légitime (force majeure listée dans les CGU de Mon Compte Formation) peut bloquer temporairement son compte. Puis tu préviens le coordinateur, qui gère la suite. Tu ne fais rien signer. Proposer une pause avec une date de reprise évite souvent l\'arrêt. Seules les heures émargées sont réglées, après la date de fin Edof.'},
 {q:'Le PDF revient vide',k:'Supports',r:'Le navigateur du bénéficiaire a mémorisé ses réponses, pas le fichier. <b>Consigne à lui donner</b> : ouvrir le PDF dans Chrome, le remplir, puis Imprimer → Enregistrer au format PDF, et déposer ce fichier-là. Si le bénéficiaire a des difficultés avec l\'informatique, tu lui transmets la version Docs ou Word, dans Ressources.'},
 {q:'Le tableau de bord, comment je l\'utilise',k:'Suivi',r:'<b>Ta copie, dans le Drive</b>, créée à la séance préliminaire et partagée avec le bénéficiaire : il y voit le travail à fournir et ce qu\'il a accompli. Le jour de chaque séance, tu renseignes la date réelle, l\'objectif, le contenu, l\'exercice utilisé, le résultat, et tout ce qui a dérogé au prévu dans la colonne Incidents / Adaptations. Un exercice à toi : tu personnalises ces colonnes. <b>Il se dépose dans Wisely à la fin du bilan seulement</b> (un Excel ne se modifie pas dans Wisely).'},
@@ -332,6 +341,7 @@ const REFLEXES=[
 {q:'Pas de projet à l\'arrivée',k:'Synthèse',r:'Ça arrive, notamment quand la personne ne peut pas se permettre de perdre en salaire. Dans la synthèse, tu poses que <b>les contraintes personnelles n\'ont pas permis d\'aboutir à un projet</b>, et tu développes : pistes explorées, ce qui a bloqué.'},
 {q:'Je pars en congés',k:'Agenda',r:'<b>Tu bloques tes dates en « Occupé » dans Google Calendar</b> et tu mets tes disponibilités à jour dans Wisely. Aucune autre démarche.'},
 {q:'Qui contacter ?',k:'Interlocuteurs',r:'<b>Mélanie</b> (melanie@melanietalhouarn.fr) : ateliers, pédagogie, déroulé, paiements. <b>Yael</b> : administratif et plannings. <b>Aurélia</b> (aurelia.compteformation@gmail.com) : dossiers et factures. <b>Coordinateurs</b> : attribution, inscription aux ateliers, abandons. Une question utile aux autres : le groupe WhatsApp.'},
+{q:'Mon exercice n\'est pas dans Ressources',k:'Supports',r:'Tu restes libre d\'utiliser tes propres outils si l\'un d\'eux sert mieux l\'objectif de la séance pour ce bénéficiaire. <b>Ce qui compte : l\'objectif de la séance atteint et la matière produite pour la suivante.</b> Tu notes l\'objectif, le contenu et le nom de l\'exercice dans ton tableau de bord, et tu déposes la trace dans Wisely. Aucun exercice, du dispositif ou le tien, ne s\'applique tel quel : il s\'adapte au rythme, à la situation et à la charge émotionnelle de la personne. C\'est aussi ce qui prouve l\'individualisation en audit.'},
 {q:'Les deux questionnaires',k:'Satisfaction',r:'<b>Celui du bénéficiaire</b> (à chaud) : tu l\'envoies depuis Wisely au rendez-vous final. <b>Le tien</b> (consultante) : un par bilan terminé, dans Wisely, rempli par la consultante individuelle. Le questionnaire à froid part automatiquement après le suivi à 6 mois.'}
 ];
 
@@ -348,7 +358,8 @@ const CLOTURE=[
 'Le dernier émargement porte la mention « J\'atteste avoir reçu la synthèse… »',
 'Le rendez-vous de suivi à 6 mois est créé dans Wisely',
 'Le questionnaire de satisfaction à chaud a été envoyé au bénéficiaire',
-'Ton questionnaire de satisfaction consultante est rempli dans Wisely'
+'Ton questionnaire de satisfaction consultante est rempli dans Wisely',
+'Dossier validé par Aurélia : tu supprimes ta copie du tableau de bord dans le Drive et les documents reçus par mail. Tout est dans Wisely, c\'est là que tu retrouveras les pièces en cas de contrôle'
 ];
 
 /* état en mémoire */
@@ -371,7 +382,7 @@ function rendre(){
   const s=S[etat.cur];
   document.querySelectorAll('.etape').forEach((b,i)=>{b.classList.toggle('active',i===etat.cur);b.setAttribute('aria-selected',i===etat.cur)});
   const p=$('#panneau'); p.style.setProperty('--c',s.c);
-  $('#p-badge').textContent=s.badge; $('#p-titre').textContent=s.nom; $('#p-sous').textContent=s.sous;
+  $('#p-badge').textContent=s.badge; $('#p-titre').textContent=s.nom; $('#p-obj').textContent=s.obj; $('#p-sous').textContent=s.sous;
   ['avant','pendant','apres'].forEach(t=>$('#n-'+t).textContent=s[t].length||'');
   document.querySelectorAll('.onglet').forEach(o=>o.classList.toggle('active',o.dataset.t===etat.tab));
   const liste=s[etat.tab]; const offset={avant:0,pendant:s.avant.length,apres:s.avant.length+s.pendant.length}[etat.tab];
